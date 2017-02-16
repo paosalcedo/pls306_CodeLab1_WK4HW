@@ -4,20 +4,26 @@ using UnityEngine;
 
 public class GravityScript : MonoBehaviour {
 
-	float posY;
-	float posX;
-	public float gravityY;
-	public float gravityX;
-	public float velocityY;
-	public float velocityX;
+//	float posY;
+//	float posX;
+//	public float gravityY;
+//	public float gravityX;
+//	public float velocityY;
+//	public float velocityX;
 
-	public KeyCode upKey = KeyCode.W;
+	public float moveSpeed;
+	public float jumpForce;
+
 	public KeyCode downKey = KeyCode.S;
 	public KeyCode leftKey = KeyCode.A;
 	public KeyCode rightKey = KeyCode.D;
+	public KeyCode jumpKey = KeyCode.Space;
+
+	Rigidbody rb;
 
 	// Use this for initialization
 	void Start () {
+		rb = GetComponent<Rigidbody> ();
 	}
 	
 	// Update is called once per frame
@@ -68,6 +74,24 @@ public class GravityScript : MonoBehaviour {
 
 
 /*------------------------------------------------------------------------------------
+------------------------------ADDFORCE MOVEMENT--------------------------------------
+-------------------------------------------------------------------------------------*/			
+
+
+		Move(Vector3.left, leftKey);
+		Move(Vector3.right, rightKey);
+		Move(Vector3.down, downKey);
+		Jump(Vector3.up, jumpKey);
+		
+
+/*------------------------------------------------------------------------------------
+------------------------------CLAMP SPEED--------------------------------------
+-------------------------------------------------------------------------------------*/			
+
+		
+
+
+/*------------------------------------------------------------------------------------
 ------------------------------GRAVITY EXPERIMENT--------------------------------------
 -------------------------------------------------------------------------------------*/			
 
@@ -110,5 +134,22 @@ public class GravityScript : MonoBehaviour {
 		Physics.gravity = new Vector3 (9.8f, 0, 0);
 	}
 
+	//NOTE: you can control everyone else's gravity by sending them a message. 
+	
+
+	void Move(Vector3 dir, KeyCode key){
+		if(Input.GetKey(key)){
+			rb.AddForce (dir * moveSpeed * Time.deltaTime);
+			//transform.Translate(dir * speed * Time.deltaTime);
+		}
+	}
+
+	void Jump(Vector3 dir, KeyCode key){
+		if(Input.GetKeyDown(key)){
+			rb.AddForce (dir * jumpForce * Time.deltaTime);
+			//transform.Translate(dir * speed * Time.deltaTime);
+		}
+
+	}
 }
 
