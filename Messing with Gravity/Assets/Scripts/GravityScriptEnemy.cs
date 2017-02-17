@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GravityScript : MonoBehaviour {
+public class GravityScriptEnemy : MonoBehaviour {
 
 //	float posY;
 //	float posX;
@@ -11,14 +11,8 @@ public class GravityScript : MonoBehaviour {
 //	public float velocityY;
 //	public float velocityX;
 
-	public float moveSpeed;
-	public float jumpForce;
 
-	public KeyCode downKey = KeyCode.S;
-	public KeyCode leftKey = KeyCode.A;
-	public KeyCode rightKey = KeyCode.D;
-	public KeyCode jumpKey = KeyCode.Space;
-
+	public static GravityScriptEnemy instance;
 	Rigidbody rb;
 
 	// Use this for initialization
@@ -78,12 +72,6 @@ public class GravityScript : MonoBehaviour {
 -------------------------------------------------------------------------------------*/			
 
 
-		Move(Vector3.left, leftKey);
-		Move(Vector3.right, rightKey);
-		Move(Vector3.down, downKey);
-		Jump(Vector3.up, jumpKey);
-		
-
 /*------------------------------------------------------------------------------------
 ------------------------------CLAMP SPEED--------------------------------------
 -------------------------------------------------------------------------------------*/			
@@ -95,64 +83,33 @@ public class GravityScript : MonoBehaviour {
 ------------------------------GRAVITY EXPERIMENT--------------------------------------
 -------------------------------------------------------------------------------------*/			
 
-		if(Input.GetKeyDown(KeyCode.U)){
-			GravUp ();
-		}
-
-		if(Input.GetKeyDown(KeyCode.J)){
-			GravNormal ();
-		}
-
-		if(Input.GetKeyDown(KeyCode.H)){
-			GravLeft ();
-		}
-
-		if(Input.GetKeyDown(KeyCode.K)){
-			GravRight ();
-		}
-
+	
 
 	}
 
 	//Sets normal gravity (down on the Y-axis)
 	void GravNormal() {
 		Physics.gravity = new Vector3(0, -9.8F, 0);
-		//GravityScriptEnemy.instance.SendMessage("GravNormal");
 	}
 
 	//Sets gravity to pull up on the Y-axis
 	void GravUp(){
 		Physics.gravity = new Vector3(0, 9.8F, 0);
-//		GravityScriptEnemy.instance.SendMessage("GravUp");
 	}
 
 	//Sets gravity to pull left on the X-axis
 	void GravLeft(){
 		Physics.gravity = new Vector3 (-9.8f, 0, 0);
-//		GravityScriptEnemy.instance.SendMessage("GravLeft");
 	}
 
 	//Sets gravity to pull right on the X-axis
 	void GravRight(){
 		Physics.gravity = new Vector3 (9.8f, 0, 0);
-//		GravityScriptEnemy.instance.SendMessage("GravRight");
 	}
 
 	//NOTE: you can control everyone else's gravity by sending them a message. 
 	
 
-	void Move(Vector3 dir, KeyCode key){
-		if(Input.GetKey(key)){
-			rb.AddForce (dir * moveSpeed * Time.deltaTime);
-		}
-	}
-
-	void Jump(Vector3 dir, KeyCode key){
-		if(Input.GetKeyDown(key)){
-			rb.AddForce (dir * jumpForce * Time.deltaTime, ForceMode.Impulse);
-			//transform.Translate(dir * speed * Time.deltaTime);
-		}
-
-	}
+	
 }
 
