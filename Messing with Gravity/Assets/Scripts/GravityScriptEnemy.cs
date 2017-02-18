@@ -10,28 +10,57 @@ public class GravityScriptEnemy : MonoBehaviour {
 //	public float gravityX;
 //	public float velocityY;
 //	public float velocityX;
-	public float gravForce; 
-
+	GameObject beam;
+	public float gravForce = 100f; 
 	public static GravityScriptEnemy instance;
 	Rigidbody rb;
+	GameObject gun;
+	bool gunHit;
+
 
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
+		gun = GameObject.Find ("Gun");
+		beam = GameObject.Find ("Beam");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-//
 //		velocityY = velocityY - gravityY * Time.deltaTime; 
 //		velocityX = velocityX - gravityX * Time.deltaTime;	
-		Ray ray = new Ray (transform.position, transform.forward);
+	
+		Ray ray = new Ray (gun.transform.position, gun.transform.right);
 		RaycastHit rayHit = new RaycastHit ();
-		if (Physics.Raycast (ray, out rayHit, 1000f)) {
-			if (rayHit.transform == this.transform) {
-				; //grow 1% per frame
+
+		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space)) {
+			if (rayHit.transform == this.transform) { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
+				Debug.Log ("raycast hit!");
+				gunHit = true;
 			}
 		}
+
+		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
+		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunDownPressed) {
+			rb.AddForce (Vector3.down * gravForce * Time.deltaTime);
+			Debug.Log ("Grav down");
+		}
+
+		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunLeftPressed) {
+			rb.AddForce (Vector3.left * gravForce * Time.deltaTime);
+			Debug.Log ("Grav left");
+		}
+
+		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunRightPressed) {
+			rb.AddForce (Vector3.right * gravForce * Time.deltaTime);
+			Debug.Log ("Grav right");
+		}
+
+		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunUpPressed) {
+			rb.AddForce (Vector3.up * gravForce * Time.deltaTime);
+			Debug.Log ("Grav up");
+		}
+			
 	
 
 /*------------------------------------------------------------------------------------
@@ -131,6 +160,10 @@ public class GravityScriptEnemy : MonoBehaviour {
 	//Sets gravity to pull right on the X-axis
 	void GravRight(){
 		rb.AddForce(Vector3.right * gravForce * Time.deltaTime);	
+	}
+
+	void GetMouse(){
+		
 	}
 
 	

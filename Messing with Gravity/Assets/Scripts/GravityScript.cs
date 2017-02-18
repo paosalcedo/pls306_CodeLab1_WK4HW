@@ -36,12 +36,11 @@ public class GravityScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
+		GravNormal ();
 	}
 	
 	// Update is called once per frame
-	void Update ()
-		
-	{
+	void Update (){
 //
 //		velocityY = velocityY - gravityY * Time.deltaTime; 
 //		velocityX = velocityX - gravityX * Time.deltaTime;
@@ -91,7 +90,7 @@ public class GravityScript : MonoBehaviour {
 ------------------------------ADDFORCE MOVEMENT--------------------------------------
 -------------------------------------------------------------------------------------*/			
 
-	
+
 		if (downIsDown) {
 			Move (Vector3.left, leftKey);
 			Move (Vector3.right, rightKey);
@@ -131,7 +130,7 @@ public class GravityScript : MonoBehaviour {
 ------------------------------GRAVITY EXPERIMENT--------------------------------------
 -------------------------------------------------------------------------------------*/			
 
-		if(Input.GetKeyDown(KeyCode.U)){
+		if(Input.GetKeyDown(KeyCode.U) ){
 			GravUp ();
 	
 		}
