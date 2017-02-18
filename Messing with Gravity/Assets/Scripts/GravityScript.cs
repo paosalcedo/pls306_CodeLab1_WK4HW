@@ -10,14 +10,26 @@ public class GravityScript : MonoBehaviour {
 //	public float gravityX;
 //	public float velocityY;
 //	public float velocityX;
-
+	
+	bool downIsDown;
+	bool leftIsDown;
+	bool rightIsDown;
+	bool upIsDown;
+	
 	public float moveSpeed;
 	public float jumpForce;
 
-	public KeyCode downKey = KeyCode.S;
-	public KeyCode leftKey = KeyCode.A;
-	public KeyCode rightKey = KeyCode.D;
-	public KeyCode jumpKey = KeyCode.Space;
+//	public KeyCode downKey = KeyCode.S;
+//	public KeyCode leftKey = KeyCode.A;
+//	public KeyCode rightKey = KeyCode.D;
+//	public KeyCode upKey = KeyCode.W;
+//	public KeyCode jumpKey;
+
+	public KeyCode downKey;
+	public KeyCode leftKey;
+	public KeyCode rightKey;
+	public KeyCode upKey; 
+
 
 	Rigidbody rb;
 
@@ -27,7 +39,9 @@ public class GravityScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+		
+	{
 //
 //		velocityY = velocityY - gravityY * Time.deltaTime; 
 //		velocityX = velocityX - gravityX * Time.deltaTime;
@@ -37,10 +51,10 @@ public class GravityScript : MonoBehaviour {
 ------------------------------TRANSLATE MOVEMENT--------------------------------------
 -------------------------------------------------------------------------------------*/
 //		//TRANSLATE-based movement along the Y-axis.
-	//	transform.position = new Vector2 (posX, posY -= velocityY * Time.deltaTime);
+		//	transform.position = new Vector2 (posX, posY -= velocityY * Time.deltaTime);
 //
 //		//TRANSLATE-based movement along the Y-axis.
-	//	transform.position = new Vector2 (posX -= velocityX * Time.deltaTime, posY);
+		//	transform.position = new Vector2 (posX -= velocityX * Time.deltaTime, posY);
 
 //		if (Input.GetKey (KeyCode.X)) {
 //			gravityY = 0f;
@@ -77,12 +91,34 @@ public class GravityScript : MonoBehaviour {
 ------------------------------ADDFORCE MOVEMENT--------------------------------------
 -------------------------------------------------------------------------------------*/			
 
+	
+		if (downIsDown) {
+			Move (Vector3.left, leftKey);
+			Move (Vector3.right, rightKey);
+			Move (Vector3.down, downKey);
+			Jump(Vector3.up, upKey);
+		}
 
-		Move(Vector3.left, leftKey);
-		Move(Vector3.right, rightKey);
-		Move(Vector3.down, downKey);
-		Jump(Vector3.up, jumpKey);
-		
+		if (upIsDown) {
+			Jump(Vector3.down, downKey);
+			Move (Vector3.left, leftKey);
+			Move (Vector3.right, rightKey);
+			Move (Vector3.up, upKey);				
+		}
+
+		if (leftIsDown) {
+			Jump(Vector3.right, rightKey);
+			Move (Vector3.up, upKey);
+			Move (Vector3.right, rightKey);
+			Move (Vector3.down, downKey);				
+		}
+
+		if (rightIsDown) {
+			Jump(Vector3.left, leftKey);
+			Move (Vector3.up, upKey);
+			Move (Vector3.right, rightKey);
+			Move (Vector3.down, downKey);				
+		}
 
 /*------------------------------------------------------------------------------------
 ------------------------------CLAMP SPEED--------------------------------------
@@ -97,18 +133,22 @@ public class GravityScript : MonoBehaviour {
 
 		if(Input.GetKeyDown(KeyCode.U)){
 			GravUp ();
+	
 		}
 
 		if(Input.GetKeyDown(KeyCode.J)){
 			GravNormal ();
+
 		}
 
 		if(Input.GetKeyDown(KeyCode.H)){
 			GravLeft ();
+
 		}
 
 		if(Input.GetKeyDown(KeyCode.K)){
 			GravRight ();
+			
 		}
 
 
@@ -117,24 +157,40 @@ public class GravityScript : MonoBehaviour {
 	//Sets normal gravity (down on the Y-axis)
 	void GravNormal() {
 		Physics.gravity = new Vector3(0, -9.8F, 0);
+		upIsDown = false;
+		downIsDown = true;
+		rightIsDown = false;
+		leftIsDown = false;
 		//GravityScriptEnemy.instance.SendMessage("GravNormal");
 	}
 
 	//Sets gravity to pull up on the Y-axis
 	void GravUp(){
 		Physics.gravity = new Vector3(0, 9.8F, 0);
+		upIsDown = true;
+		downIsDown = false;
+		rightIsDown = false;
+		leftIsDown = false;
 //		GravityScriptEnemy.instance.SendMessage("GravUp");
 	}
 
 	//Sets gravity to pull left on the X-axis
 	void GravLeft(){
 		Physics.gravity = new Vector3 (-9.8f, 0, 0);
+		upIsDown = false;
+		downIsDown = false;
+		rightIsDown = false;
+		leftIsDown = true;
 //		GravityScriptEnemy.instance.SendMessage("GravLeft");
 	}
 
 	//Sets gravity to pull right on the X-axis
 	void GravRight(){
 		Physics.gravity = new Vector3 (9.8f, 0, 0);
+		upIsDown = false;
+		downIsDown = false;
+		rightIsDown = true;
+		leftIsDown = false;
 //		GravityScriptEnemy.instance.SendMessage("GravRight");
 	}
 
@@ -143,16 +199,16 @@ public class GravityScript : MonoBehaviour {
 
 	void Move(Vector3 dir, KeyCode key){
 		if(Input.GetKey(key)){
-			rb.AddForce (dir * moveSpeed * Time.deltaTime);
+			rb.AddForce (dir * moveSpeed * Time.deltaTime, ForceMode.Impulse);
 		}
 	}
+
 
 	void Jump(Vector3 dir, KeyCode key){
 		if(Input.GetKeyDown(key)){
 			rb.AddForce (dir * jumpForce * Time.deltaTime, ForceMode.Impulse);
 			//transform.Translate(dir * speed * Time.deltaTime);
 		}
-
 	}
 }
 

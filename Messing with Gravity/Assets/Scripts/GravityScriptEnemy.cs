@@ -10,7 +10,7 @@ public class GravityScriptEnemy : MonoBehaviour {
 //	public float gravityX;
 //	public float velocityY;
 //	public float velocityX;
-
+	public float gravForce; 
 
 	public static GravityScriptEnemy instance;
 	Rigidbody rb;
@@ -24,8 +24,15 @@ public class GravityScriptEnemy : MonoBehaviour {
 	void Update () {
 //
 //		velocityY = velocityY - gravityY * Time.deltaTime; 
-//		velocityX = velocityX - gravityX * Time.deltaTime;
-
+//		velocityX = velocityX - gravityX * Time.deltaTime;	
+		Ray ray = new Ray (transform.position, transform.forward);
+		RaycastHit rayHit = new RaycastHit ();
+		if (Physics.Raycast (ray, out rayHit, 1000f)) {
+			if (rayHit.transform == this.transform) {
+				; //grow 1% per frame
+			}
+		}
+	
 
 /*------------------------------------------------------------------------------------
 ------------------------------TRANSLATE MOVEMENT--------------------------------------
@@ -86,28 +93,46 @@ public class GravityScriptEnemy : MonoBehaviour {
 	
 
 	}
-
+	
 	//Sets normal gravity (down on the Y-axis)
+//	void GravNormal() {
+//		Physics.gravity = new Vector3(0, -9.8F, 0);
+//	}
+//
+//	//Sets gravity to pull up on the Y-axis
+//	void GravUp(){
+//		Physics.gravity = new Vector3(0, 9.8F, 0);
+//	}
+//
+//	//Sets gravity to pull left on the X-axis
+//	void GravLeft(){
+//		Physics.gravity = new Vector3 (-9.8f, 0, 0);
+//	}
+//
+//	//Sets gravity to pull right on the X-axis
+//	void GravRight(){
+//		Physics.gravity = new Vector3 (9.8f, 0, 0);
+//	}
+
 	void GravNormal() {
-		Physics.gravity = new Vector3(0, -9.8F, 0);
+		rb.AddForce(Vector3.down * gravForce * Time.deltaTime);
 	}
 
 	//Sets gravity to pull up on the Y-axis
 	void GravUp(){
-		Physics.gravity = new Vector3(0, 9.8F, 0);
+		rb.AddForce(Vector3.up * gravForce * Time.deltaTime);
 	}
 
 	//Sets gravity to pull left on the X-axis
 	void GravLeft(){
-		Physics.gravity = new Vector3 (-9.8f, 0, 0);
+		rb.AddForce(Vector3.left * gravForce * Time.deltaTime);	
 	}
 
 	//Sets gravity to pull right on the X-axis
 	void GravRight(){
-		Physics.gravity = new Vector3 (9.8f, 0, 0);
+		rb.AddForce(Vector3.right * gravForce * Time.deltaTime);	
 	}
 
-	//NOTE: you can control everyone else's gravity by sending them a message. 
 	
 
 	
