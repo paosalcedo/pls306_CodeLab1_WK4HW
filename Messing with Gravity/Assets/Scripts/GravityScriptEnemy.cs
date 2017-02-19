@@ -12,11 +12,14 @@ public class GravityScriptEnemy : MonoBehaviour {
 //	public float velocityX;
 	GameObject beam;
 	public float gravForce = 100f; 
+	public float weapCoolDown = 5f;
 	public static GravityScriptEnemy instance;
 	Rigidbody rb;
 	GameObject gun;
-	bool gunHit;
-
+	public bool hitByDown;
+	public bool hitByUp;
+	public bool hitByLeft;
+	public bool hitByRight;
 
 	// Use this for initialization
 	void Start () {
@@ -30,42 +33,79 @@ public class GravityScriptEnemy : MonoBehaviour {
 //		velocityY = velocityY - gravityY * Time.deltaTime; 
 //		velocityX = velocityX - gravityX * Time.deltaTime;	
 
+		//Use time.deltatime for weapon cooldown.
+
 		//set gravity to normal (down is down) for enemies. 
-		if (gun.GetComponent<GunScript>().gunDownPressed) {
-			GravNormal ();
-		}
-	
+
+		//		if (gun.GetComponent<GunScript>().gunDownPressed) {
+//			GravNormal ();
+//		}
+//	
 		Ray ray = new Ray (gun.transform.position, gun.transform.right);
 		RaycastHit rayHit = new RaycastHit ();
 
-		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space)) {
+		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space) && gun.GetComponent<GunScript>().gunDownPressed) {
 			if (rayHit.transform == this.transform) { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
-				Debug.Log ("raycast hit!");
-				gunHit = true;
+				Debug.Log("DOWN");
+				hitByUp = false;
+				hitByLeft = false;
+				hitByRight = false;
+				hitByDown = true;
 			}
 		}
 
-		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
-		if (gunHit && gun.GetComponent<GunScript>().gunDownPressed) {
+		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space) && gun.GetComponent<GunScript>().gunUpPressed) {
+			if (rayHit.transform == this.transform) { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
+				Debug.Log("UP");
+				hitByUp = true;
+				hitByLeft = false;
+				hitByRight = false;
+				hitByDown = false;
+			}
+		}
+
+		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space) && gun.GetComponent<GunScript>().gunRightPressed) {
+			if (rayHit.transform == this.transform) { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
+ 				hitByRight = true;
+				Debug.Log("RIGHT");
+				hitByUp = false;
+				hitByLeft = false;
+				hitByDown = false;
+			}
+		}
+
+		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space) && gun.GetComponent<GunScript>().gunLeftPressed) {
+			if (rayHit.transform == this.transform) { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
+ 				hitByLeft = true;
+				hitByUp = false;
+				hitByDown = false;
+				hitByRight = false;
+				Debug.Log("LEFT");
+			}
+		}
+
+
+		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION. Problem here is everything is affected by the toggle: if you shoot one object, then press a different grav gun setting, the object is still affected. 
+		if (hitByDown) {
 			rb.AddForce (Vector3.down * gravForce * Time.deltaTime);
-			Debug.Log ("Grav down");
+ 			
 		}
 
-		if (gunHit && gun.GetComponent<GunScript>().gunLeftPressed) {
+		if (hitByLeft) {
 			rb.AddForce (Vector3.left * gravForce * Time.deltaTime);
-			Debug.Log ("Grav left");
+ 			
 
 		}
 
-		if (gunHit && gun.GetComponent<GunScript>().gunRightPressed) {
+		if (hitByRight) {
 			rb.AddForce (Vector3.right * gravForce * Time.deltaTime);
-			Debug.Log ("Grav right");
+ 			
 
 		}
 
-		if (gunHit && gun.GetComponent<GunScript>().gunUpPressed) {
+		if (hitByUp) {
 			rb.AddForce (Vector3.up * gravForce * Time.deltaTime);
-			Debug.Log ("Grav up");
+ 		
 		}
 
 			
