@@ -49,17 +49,20 @@ public class GravityScriptEnemy : MonoBehaviour {
 		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunLeftPressed) {
 			rb.AddForce (Vector3.left * gravForce * Time.deltaTime);
 			Debug.Log ("Grav left");
+
 		}
 
 		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunRightPressed) {
 			rb.AddForce (Vector3.right * gravForce * Time.deltaTime);
 			Debug.Log ("Grav right");
+
 		}
 
 		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunUpPressed) {
 			rb.AddForce (Vector3.up * gravForce * Time.deltaTime);
 			Debug.Log ("Grav up");
 		}
+
 			
 	
 
