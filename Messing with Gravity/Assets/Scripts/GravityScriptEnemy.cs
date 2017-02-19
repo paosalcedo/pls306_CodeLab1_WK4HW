@@ -29,6 +29,11 @@ public class GravityScriptEnemy : MonoBehaviour {
 	void Update () {
 //		velocityY = velocityY - gravityY * Time.deltaTime; 
 //		velocityX = velocityX - gravityX * Time.deltaTime;	
+
+		//set gravity to normal (down is down) for enemies. 
+		if (gun.GetComponent<GunScript>().gunDownPressed) {
+			GravNormal ();
+		}
 	
 		Ray ray = new Ray (gun.transform.position, gun.transform.right);
 		RaycastHit rayHit = new RaycastHit ();
@@ -41,24 +46,24 @@ public class GravityScriptEnemy : MonoBehaviour {
 		}
 
 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
-		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunDownPressed) {
+		if (gunHit && gun.GetComponent<GunScript>().gunDownPressed) {
 			rb.AddForce (Vector3.down * gravForce * Time.deltaTime);
 			Debug.Log ("Grav down");
 		}
 
-		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunLeftPressed) {
+		if (gunHit && gun.GetComponent<GunScript>().gunLeftPressed) {
 			rb.AddForce (Vector3.left * gravForce * Time.deltaTime);
 			Debug.Log ("Grav left");
 
 		}
 
-		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunRightPressed) {
+		if (gunHit && gun.GetComponent<GunScript>().gunRightPressed) {
 			rb.AddForce (Vector3.right * gravForce * Time.deltaTime);
 			Debug.Log ("Grav right");
 
 		}
 
-		if (gunHit && GameObject.Find("Gun").GetComponent<GunScript>().gunUpPressed) {
+		if (gunHit && gun.GetComponent<GunScript>().gunUpPressed) {
 			rb.AddForce (Vector3.up * gravForce * Time.deltaTime);
 			Debug.Log ("Grav up");
 		}

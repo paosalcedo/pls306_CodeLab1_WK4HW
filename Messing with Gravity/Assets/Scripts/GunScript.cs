@@ -15,11 +15,12 @@ public class GunScript : MonoBehaviour {
 	public bool gunLeftPressed;
 	bool gunRight;
 	public bool gunRightPressed;
+	public static GunScript instance;
 
 	void Start () {
 		player = GameObject.Find ("Player");
 		gunUpPressed = false;
-		gunDownPressed = false;
+		gunDownPressed = true;
 		gunLeftPressed = false;
 		gunRightPressed = false;
 
@@ -43,7 +44,7 @@ public class GunScript : MonoBehaviour {
  --------------------ASSIGNING GRAV GUN SETTINGS TO NUMBERS 1-4------------
  ---------------------------------------------------------------------------*/
 		if(Input.GetKeyDown(KeyCode.Alpha1) && gunDownPressed == false){
-			gunDown = true;
+		  	gunDown = true;
 			gunDownPressed = true;
 			gunUpPressed = false;
 			gunLeftPressed = false;

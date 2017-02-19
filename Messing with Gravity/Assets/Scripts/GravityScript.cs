@@ -11,10 +11,10 @@ public class GravityScript : MonoBehaviour {
 //	public float velocityY;
 //	public float velocityX;
 	
-	bool downIsDown;
-	bool leftIsDown;
-	bool rightIsDown;
-	bool upIsDown;
+	public bool downIsDown;
+	public bool leftIsDown;
+	public bool rightIsDown;
+	public bool upIsDown;
 	
 	public float moveSpeed;
 	public float jumpForce;
