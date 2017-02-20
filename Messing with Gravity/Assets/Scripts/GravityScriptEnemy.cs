@@ -20,12 +20,18 @@ public class GravityScriptEnemy : MonoBehaviour {
 	public bool hitByUp;
 	public bool hitByLeft;
 	public bool hitByRight;
+	public float rocketForce = 2000f;
+	public float radius = 5.0f;
+	public float upForce = 5f;
+	GameObject player;
 
 	// Use this for initialization
 	void Start () {
+		player = GameObject.Find ("Player");
 		rb = GetComponent<Rigidbody> ();
 		gun = GameObject.Find ("Gun");
 		beam = GameObject.Find ("Beam");
+		hitByDown = true;
 	}
 	
 	// Update is called once per frame
@@ -80,6 +86,13 @@ public class GravityScriptEnemy : MonoBehaviour {
 				hitByUp = false;
 				hitByDown = false;
 				hitByRight = false;
+				Debug.Log("LEFT");
+			}
+		}
+
+		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space) && gun.GetComponent<GunScript>().rocketPressed) {
+			if (rayHit.transform.gameObject.tag == "Environment") { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
+				player.GetComponent<Rigidbody>().AddExplosionForce(rocketForce, rayHit.point, radius, upForce);
 				Debug.Log("LEFT");
 			}
 		}

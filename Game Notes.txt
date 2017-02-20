@@ -1,0 +1,5 @@
+Grav Gun options:
+
+
+Right now it's like a permanent spell/debuff you cast on your enemy that can be adjusted on the fly. 
+should have cooldown?

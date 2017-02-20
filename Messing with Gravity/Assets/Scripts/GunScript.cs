@@ -16,6 +16,7 @@ public class GunScript : MonoBehaviour {
 	bool gunRight;
 	public bool gunRightPressed;
 	public static GunScript instance;
+	public bool rocketPressed;
 
 	void Start () {
 		player = GameObject.Find ("Player");
@@ -23,6 +24,7 @@ public class GunScript : MonoBehaviour {
 		gunDownPressed = true;
 		gunLeftPressed = false;
 		gunRightPressed = false;
+		rocketPressed = false;
 
 	}
 	
@@ -44,46 +46,57 @@ public class GunScript : MonoBehaviour {
  --------------------ASSIGNING GRAV GUN SETTINGS TO NUMBERS 1-4------------
  ---------------------------------------------------------------------------*/
 		if(Input.GetKeyDown(KeyCode.Alpha1) && gunDownPressed == false){
-		  	gunDown = true;
+		  //	gunDown = true;
 			gunDownPressed = true;
 			gunUpPressed = false;
 			gunLeftPressed = false;
 			gunRightPressed = false;
+			rocketPressed = false;
+
 			Debug.Log ("1 Grav Gun Normal Setting");
 		}
 
 		if(Input.GetKeyDown(KeyCode.Alpha2) && gunUpPressed == false){
-			gunUp = true;
+			//gunUp = true;
 			gunDownPressed = false;
 			gunUpPressed = true;
 			gunLeftPressed = false;
 			gunRightPressed = false;
+			rocketPressed = false;
+
 			Debug.Log ("2 Grav Gun Up is Down Setting");
 		}
 
 		if(Input.GetKeyDown(KeyCode.Alpha3) && gunLeftPressed == false){
-			gunLeft = true;
+			//gunLeft = true;
 			gunDownPressed = false;
 			gunUpPressed = false;
 			gunLeftPressed = true;
 			gunRightPressed = false;
+			rocketPressed = false;
+
 			Debug.Log ("3 Grav Gun Left is Down Setting");
 		}
 
 		if(Input.GetKeyDown(KeyCode.Alpha4) && gunRightPressed == false){
-			gunRight = true;
+			//gunRight = true;
 			gunDownPressed = false;
 			gunUpPressed = false;
 			gunLeftPressed = false;
 			gunRightPressed = true;
+			rocketPressed = false;
+
 			Debug.Log ("4 Grav Gun Right Is Down Setting");
 		}
-	}
-	void Aim () {
-		if (Input.GetKey (KeyCode.LeftArrow)) {
-			transform.eulerAngles = new Vector3 (transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + rotateSpeed);
-			Debug.Log ("Rotating!");
+
+		if(Input.GetKeyDown(KeyCode.Alpha5) && rocketPressed == false){
+			rocketPressed = true;
+			gunDownPressed = false;
+			gunUpPressed = false;
+			gunLeftPressed = false;
+			gunRightPressed = false;
+
+			Debug.Log ("5 Rocket Selected");
 		}
-			
 	}
 }
