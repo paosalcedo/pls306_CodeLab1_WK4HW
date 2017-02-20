@@ -18,6 +18,7 @@ public class GravityScript : MonoBehaviour {
 	
 	public float moveSpeed;
 	public float jumpForce;
+	public float maxVelocity;
 
 //	public KeyCode downKey = KeyCode.S;
 //	public KeyCode leftKey = KeyCode.A;
@@ -37,7 +38,7 @@ public class GravityScript : MonoBehaviour {
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
 		GravNormal ();
-	}
+ 	}
 	
 	// Update is called once per frame
 	void Update (){
@@ -90,7 +91,15 @@ public class GravityScript : MonoBehaviour {
 ------------------------------ADDFORCE MOVEMENT--------------------------------------
 -------------------------------------------------------------------------------------*/			
 
+		//Clamping velocity
+		if (rb.velocity.magnitude > maxVelocity) {
+			rb.velocity = rb.velocity.normalized * maxVelocity;
+		}
 
+		Debug.Log (rb.velocity.magnitude);
+
+
+		//Change the movement keys to correspond to where gravity is pulling from.
 		if (downIsDown) {
 			Move (Vector3.left, leftKey);
 			Move (Vector3.right, rightKey);
@@ -130,6 +139,7 @@ public class GravityScript : MonoBehaviour {
 ------------------------------GRAVITY EXPERIMENT--------------------------------------
 -------------------------------------------------------------------------------------*/			
 
+		//Binding gravity manipulation to keys.
 		if(Input.GetKeyDown(KeyCode.U) ){
 			GravUp ();
 	

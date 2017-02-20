@@ -17,6 +17,8 @@ public class GunScript : MonoBehaviour {
 	public bool gunRightPressed;
 	public static GunScript instance;
 	public bool rocketPressed;
+	AudioSource gravgunSound;
+	 
 
 	void Start () {
 		player = GameObject.Find ("Player");
@@ -27,11 +29,12 @@ public class GunScript : MonoBehaviour {
 		rocketPressed = false;
 
 	}
-	
-	// Update is called once per frame
+		
+
 	void Update () {
 		//Aim ();
 
+	
 		//testing gun rotation controls. Rotates the "Gun" object around an axis which is at the center of Player transform.
 		if (Input.GetKey (KeyCode.LeftArrow)) {
 			transform.RotateAround (player.transform.position, Vector3.forward, rotateSpeed * Time.deltaTime);			
@@ -40,6 +43,18 @@ public class GunScript : MonoBehaviour {
 		if (Input.GetKey (KeyCode.RightArrow)) {
 			transform.RotateAround (player.transform.position, Vector3.forward, -rotateSpeed * Time.deltaTime);			
 		}
+
+
+		//Adding gravgun audio
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			if (gunDownPressed || gunUpPressed || gunLeftPressed || gunRightPressed) {
+				gravgunSound = GetComponent<AudioSource> ();
+				gravgunSound.Play ();
+			}
+
+
+		}
+		
 
 
 /*--------------------------------------------------------------------------

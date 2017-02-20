@@ -92,7 +92,7 @@ public class GravityScriptEnemy : MonoBehaviour {
 
 		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space) && gun.GetComponent<GunScript>().rocketPressed) {
 			if (rayHit.transform.gameObject.tag == "Environment") { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
-				player.GetComponent<Rigidbody>().AddExplosionForce(rocketForce, rayHit.point, radius, upForce);
+				player.GetComponent<Rigidbody>().AddExplosionForce(rocketForce, rayHit.point, radius);
 				Debug.Log("LEFT");
 			}
 		}
