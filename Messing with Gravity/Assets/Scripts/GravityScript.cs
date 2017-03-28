@@ -96,7 +96,7 @@ public class GravityScript : MonoBehaviour {
 			rb.velocity = rb.velocity.normalized * maxVelocity;
 		}
 
-		Debug.Log (rb.velocity.magnitude);
+//		Debug.Log (rb.velocity.magnitude);
 
 
 		//Change the movement keys to correspond to where gravity is pulling from.

@@ -47,12 +47,17 @@ public class GravityScriptEnemy : MonoBehaviour {
 //			GravNormal ();
 //		}
 //	
+		
+
 		Ray ray = new Ray (gun.transform.position, gun.transform.right);
 		RaycastHit rayHit = new RaycastHit ();
+ 
 
 		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space) && gun.GetComponent<GunScript>().gunDownPressed) {
 			if (rayHit.transform == this.transform) { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
 				Debug.Log("DOWN");
+				ShowBeam();
+				Invoke("HideBeam", 0.5f);
 				hitByUp = false;
 				hitByLeft = false;
 				hitByRight = false;
@@ -63,10 +68,13 @@ public class GravityScriptEnemy : MonoBehaviour {
 		if (Physics.Raycast (ray, out rayHit, 1000f) && Input.GetKeyDown(KeyCode.Space) && gun.GetComponent<GunScript>().gunUpPressed) {
 			if (rayHit.transform == this.transform) { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
 				Debug.Log("UP");
-				hitByUp = true;
+ 				hitByUp = true;
 				hitByLeft = false;
 				hitByRight = false;
-				hitByDown = false;
+				hitByDown = false;				
+				ShowBeam();
+				Invoke("HideBeam", 0.5f);
+
 			}
 		}
 
@@ -74,9 +82,11 @@ public class GravityScriptEnemy : MonoBehaviour {
 			if (rayHit.transform == this.transform) { 		//Adds reverse gravity (up in this case) when raycast hits object. BOOL VERSION.
  				hitByRight = true;
 				Debug.Log("RIGHT");
-				hitByUp = false;
+ 				hitByUp = false;
 				hitByLeft = false;
 				hitByDown = false;
+				ShowBeam();
+				Invoke("HideBeam", 0.5f);
 			}
 		}
 
@@ -87,6 +97,8 @@ public class GravityScriptEnemy : MonoBehaviour {
 				hitByDown = false;
 				hitByRight = false;
 				Debug.Log("LEFT");
+				ShowBeam();
+				Invoke("HideBeam", 0.5f);
 			}
 		}
 
@@ -223,8 +235,12 @@ public class GravityScriptEnemy : MonoBehaviour {
 		rb.AddForce(Vector3.right * gravForce * Time.deltaTime);	
 	}
 
-	void GetMouse(){
-		
+ 	void ShowBeam(){
+		beam.GetComponent<MeshRenderer>().enabled = true;
+	}
+
+	void HideBeam(){
+		beam.GetComponent<MeshRenderer>().enabled = false;
 	}
 
 	
