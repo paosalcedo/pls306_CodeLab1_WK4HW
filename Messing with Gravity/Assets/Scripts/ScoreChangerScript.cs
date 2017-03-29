@@ -4,31 +4,48 @@ using UnityEngine;
 
 public class ScoreChangerScript : MonoBehaviour {
 
-	private const int SCORE_START = 0;
+	private const string PREF_HIGH_SCORE = "highScorePref";
+	
+	private int score;
 
-	private static int score;
-
-	public static ScoreChangerScript instance;
 
 	public int scoreAmt = 10;
 
-	public int Score{ 
-		get{
-			Debug.Log("Score: " + score);
+	public int Score { 
+		get {
 			return score;
 		}
 
-		set{
+		set {
 			score = value;
+
+			if (score > HighScore) {
+				HighScore = score;
+			}
+			Debug.Log(score);
 		}
 	}
- 
-	void Start () { 
-		Score = SCORE_START;
 
-		if(instance == null){
+	private int highScore = 20;
+
+	public int HighScore {
+		get{ 
+			return highScore;
+		}
+		set{ 
+			Debug.Log("NEW HIGH SCORE!!! CONGRATULATIONS!!!");
+			highScore = value;
+			PlayerPrefs.SetInt(PREF_HIGH_SCORE, highScore);
+		}
+	}
+
+	public static ScoreChangerScript instance;
+
+	void Start ()
+	{ 
+		if (instance == null) {
 			instance = this;
-			DontDestroyOnLoad(this);
+			DontDestroyOnLoad (this);
 		} else {
 			Destroy(gameObject);
 		}

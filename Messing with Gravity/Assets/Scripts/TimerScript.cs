@@ -25,14 +25,12 @@ public class TimerScript : MonoBehaviour {
 		set{
 			timeToComplete = value;
 
-			//if score > HighScore, make HighScore = score
-			if(timeToComplete < GoodTime){
+ 			if(timeToComplete < GoodTime){
 				GoodTime = timeToComplete;
 				Debug.Log("New best time!!!!!!");
 			}
 
-			//print out the score
-		}
+ 		}
 	}
 
 	public float GoodTime {
@@ -50,7 +48,7 @@ public class TimerScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+		PlayerPrefs.DeleteKey(PREF_GOOD_TIME);
 		timeSpent = startTime;
 		if(instance == null){
 			//set instance to this instance of ScoreManager
@@ -65,18 +63,18 @@ public class TimerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		CountDown();	
+		CountUp();	
 		CheckTime();		
 	}
 
-	void CountDown ()
+	void CountUp ()
 	{
 //		Debug.Log(timeSpent);
 		timeSpent += Time.deltaTime;
-		if (ScoreChangerScript.instance.Score > 30) {
-			timeSpent = timeToComplete;
-			Invoke ("RestartGame", 3f);
-			}
+//		if (ScoreChangerScript.instance.Score > 30) {
+//			timeSpent = timeToComplete;
+//			Invoke ("RestartGame", 3f);
+//			}
 	}
 
 	void CheckTime ()
@@ -85,6 +83,8 @@ public class TimerScript : MonoBehaviour {
 			Debug.Log ("GoodTime is " + GoodTime);
 			Debug.Log ("goodTime is " + goodTime);
 			Debug.Log ("time spent to complete is: " + timeToComplete);
+			PlayerPrefs.DeleteKey(PREF_GOOD_TIME);
+
 		}
 	}
 	void RestartGame()
