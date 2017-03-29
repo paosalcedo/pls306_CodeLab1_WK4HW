@@ -15,8 +15,10 @@ public class ScoreIncreaseScript : MonoBehaviour {
 				
 	}
 
-	void OnTriggerEnter ()
+	void OnTriggerEnter (Collider col)
 	{
-		gameManager.SendMessage("IncreaseScore");
+		if (col.gameObject.tag == "Enemy") {
+			gameManager.SendMessage ("IncreaseScore");
+		}
 	}
 }

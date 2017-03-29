@@ -14,7 +14,7 @@ public class ScoreChangerScript : MonoBehaviour {
 
 	public int Score{ 
 		get{
-			Debug.Log(score);
+			Debug.Log("Score: " + score);
 			return score;
 		}
 
@@ -22,7 +22,6 @@ public class ScoreChangerScript : MonoBehaviour {
 			score = value;
 		}
 	}
-
  
 	void Start () { 
 		Score = SCORE_START;
@@ -41,7 +40,7 @@ public class ScoreChangerScript : MonoBehaviour {
 
 	void IncreaseScore(){		
 		Score += scoreAmt;
-		Debug.Log(name + " Score: " + Score);
+//		Debug.Log(name + " Score: " + Score);
 	}
 
 }
